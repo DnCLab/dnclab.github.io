@@ -54,6 +54,20 @@ updateChart(dataLength);
 setInterval(function(){updateChart()}, updateInterval);
 
 }
+
+function readFile1(e) { 
+    var file = e.target.files[0];
+ 
+    if (!file) {
+           return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        fileData = e.target.result;
+        //file데이터를 읽어서 처리할 로직.
+    };
+    reader.readAsText(file, 'euc-kr');
+}
 </script>
 	</head>
 	<body class="left-sidebar">
@@ -99,12 +113,18 @@ setInterval(function(){updateChart()}, updateInterval);
 
 								<!-- Content -->
 									<article class="box post">
-										<a href="#" class="image featured"><img src="/../images/pic01.jpg" alt="" /></a>
 										<header>
 											<h2>모니터링 현황</h2>
-											
 										</header>
 										<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+										<input id="file1" class="ml8" type="file" style="width:300px;" />
+										<script>
+											$(function(){
+    												//이벤트 리스너 등록.
+    												document.getElementById('file1').addEventListener('change', readFile1, false);
+ 
+											)};
+										</script>
 										<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 										<!--<section>
 											<header>
