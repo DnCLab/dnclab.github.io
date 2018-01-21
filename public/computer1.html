@@ -13,61 +13,63 @@
 
 				var dps = []; // dataPoints
 				var chart = new CanvasJS.Chart("chartContainer", {
-				title :{
-					text: "Memory Usage"
-				},
-				axisY: {
-					includeZero: false
-				},      
-				data: [{
-					type: "line",
-					dataPoints: dps
-				}]
-			});
+					title :{
+						text: "Memory Usage"
+					},
+					axisY: {
+						includeZero: false
+					},      
+					data: [{
+						type: "line",
+						dataPoints: dps
+					}]
+				});
 
-			var xVal = 0;
-			var yVal = 100; 
-			var updateInterval = 10000;
-			var dataLength = 20; // number of dataPoints visible at any point
+				var xVal = 0;
+				var yVal = 100; 
+				var updateInterval = 10000;
+				var dataLength = 20; // number of dataPoints visible at any point
 
-			var updateChart = function (count) {
+				var updateChart = function (count) {
 
-				count = count || 1;
+					count = count || 1;
 
-				for (var j = 0; j < count; j++) {
-					yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-					dps.push({
-						x: xVal,
-						y: yVal
-					});
-					xVal++;
-				}
-
-				if (dps.length > dataLength) {
-					dps.shift();
-				}
-
-				chart.render();
-			};
-
-			updateChart(dataLength);
-			setInterval(function(){updateChart()}, updateInterval);
-
-			}
-
-			function readFile() { 
-    				var fileName = "test.txt";
-				var fileObject = new ActiveXObject("Scripting.FileSystemObject");
-				if(!fileObject.FileExists(fileName)) {
-					alert('test.txt file has not found');
-				}
-				else {
-					var fOpen = fileObject.OpenTextFile(fileName, 1);
-					document.getElementById("textOutput").innerHTML = "";
-					while(!fOpen.AtEndOfStream) {
-						document.getElementById("textOutput").innerHTML += fOpen.Readline();
+					for (var j = 0; j < count; j++) {
+						yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+						dps.push({
+							x: xVal,
+							y: yVal
+						});
+						xVal++;
 					}
-					fOpen.close();
+
+					if (dps.length > dataLength) {
+						dps.shift();
+					}
+
+					chart.render();
+				};
+
+				updateChart(dataLength);
+				setInterval(function(){updateChart()}, updateInterval);
+
+				function readFile() { 
+    					var file = document.getElementById("file").files[0];
+					//alert(file);
+					//document.getElementById("fileName").textContent = file.name;
+					//document.getElementById("fileSize").textContent = file.size;
+					var reader = new FileReader();
+					//var encodeList = document.getElementById("encoding");
+					//var encoding = encodeList.options[encodeList.selectedIndex].value;
+					reader.readAsText(file, utf-8);
+					reader.onload = function(){
+						var display = document.getElementById("textOutput");
+						display.textContent = reader.result;		// 읽은 파일
+					}
+					reader.onerror = function(e){
+						alert("읽기 오류:" + e.target.error.code);
+						return;
+					}
 				}
 			}
 		</script>
