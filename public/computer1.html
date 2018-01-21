@@ -8,6 +8,53 @@
 		<!--[if lte IE 8]><script src="/public/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="/public/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="/public/css/ie8.css" /><![endif]-->
+		<script>
+window.onload = function () {
+
+var dps = []; // dataPoints
+var chart = new CanvasJS.Chart("chartContainer", {
+	title :{
+		text: "Dynamic Data"
+	},
+	axisY: {
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps
+	}]
+});
+
+var xVal = 0;
+var yVal = 100; 
+var updateInterval = 1000;
+var dataLength = 20; // number of dataPoints visible at any point
+
+var updateChart = function (count) {
+
+	count = count || 1;
+
+	for (var j = 0; j < count; j++) {
+		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+		dps.push({
+			x: xVal,
+			y: yVal
+		});
+		xVal++;
+	}
+
+	if (dps.length > dataLength) {
+		dps.shift();
+	}
+
+	chart.render();
+};
+
+updateChart(dataLength);
+setInterval(function(){updateChart()}, updateInterval);
+
+}
+</script>
 	</head>
 	<body class="left-sidebar">
 		<div id="page-wrapper">
@@ -57,12 +104,8 @@
 											<h2>모니터링 현황</h2>
 											<p>Lorem ipsum dolor sit amet feugiat</p>
 										</header>
-										<p>
-											Vestibulum scelerisque ultricies libero id hendrerit. Vivamus malesuada quam faucibus ante dignissim auctor
-											hendrerit libero placerat. Nulla facilisi. Proin aliquam felis non arcu molestie at accumsan turpis commodo.
-											Proin elementum, nibh non egestas sodales, augue quam aliquet est, id egestas diam justo adipiscing ante.
-											Pellentesque tempus nulla non urna eleifend ut ultrices nisi faucibus.
-										</p>
+										<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+										<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 										<!--<section>
 											<header>
 												<h3>Something else</h3>
